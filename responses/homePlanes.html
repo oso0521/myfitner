@@ -1,0 +1,249 @@
+<script>
+	try
+	{
+		if(myJSONObject == "" || typeof myJSONObject == typeof undefined)
+		{
+			var atr = localStorage.getItem("Data");//Obtener el objeto "BD" de Local Storage
+			var htmlTxt = "";
+			if(atr== "" || atr == null || typeof atr == 'undefined')//Si nunca se ha creado, se crea con valores nulos
+			{
+				myJSONObject ={"Data": []};
+			}else
+			{
+				myJSONObject = JSON.parse(""+atr);	
+			};	
+		}
+		idEspecialidad = ID_ESPECIALIDAD;
+		idPrograma = ID_PROGRAMA;
+	}catch(e){}
+	
+</script>
+<style>
+	.carr_select
+	{
+		width:90%;
+	}
+	.cardWrap
+	{
+		width:45%;
+	}
+	.cardWrap>div
+	{
+		height: 100%;
+		width: 95% !important;
+		margin:auto;
+	}
+	 .slick-prev,  .slick-next
+	{
+		top: 30px;
+	}
+	 .slick-next
+	{
+		right:5px;
+	}
+	 .slick-prev
+	{
+		left:0;
+	}
+	.slick-prev:before, .slick-next:before 
+	{
+   		color: gray;
+	}
+	#planes>div>div>.slick-slide
+	{
+		opacity:0.5;
+	}
+	#planes>div>div>.slick-slide.slick-center
+	{
+		opacity:1;
+	}
+	
+	#planes h2{
+		padding-top:20px;
+		text-align:center;
+		width:100%;
+		font-size:25px;		
+	}
+	@media screen and (max-width:800px)
+	{
+		.carr_select
+		{
+			width:100%;
+		}
+	}
+</style>
+
+<div class="carr_select" style="background-color:white;">
+	<div id="planes">	
+    	
+    </div>
+</div>
+<script>
+	var html = "";
+	var imgsList = "";
+	var imgs={};
+	var ia=0;
+	var ja=0;
+	for(p=0;p<5;p++)
+	$.each(myJSONObject['data'][parseInt(idEspecialidad)][parseInt(idPrograma)],function(i,aux){
+			//console.log("i:"+i);
+			$.each(aux['planes'],function(j,planes){
+				//console.log("	j:"+j);
+				html += "<div class=\"cardWrap\"><div class=\"ejercicioCard\"><h2>"+planes[0]['nombre']+"</h2><br />";
+				html += "<div class=\"planSlide\">";
+				$.each(planes,function(k,plan){		
+													
+					//console.log("		k: "+k);
+								
+					$.each(plan['rutinas'],function(l,rutina){						
+						//console.log("			l: "+l);						
+						html+="<div class=\"nombreRutina\" style='width:100%; text-align:center;' data-ja=\""+ja+"\" data-count=\""+ia+"\" data-idPlan=\""+plan['idPlan']+"\" data-idRutina=\""+rutina['idRutina']+"\"><h3>"+rutina['nombre']+"</h3></div>";	
+						imgsList = "";											
+						$.each(rutina['ejercicios'],function(m,ejercicio){
+							//console.log(ejercicio);
+							imgsList+="<div style=\"width:100%; \"><img class=\"gif\" data-idrutina=\""+rutina['idRutina']+"\" data-idplan=\""+plan['idPlan']+"\" src=\""+ejercicio['gif']+"\" alt=\""+ejercicio['nombre']+"\"/></div>";
+						});						
+						imgs[ia]={"plan":plan['idPlan'],"rutina":rutina['idRutina'],"imgs": imgsList	};
+						ia++;
+					});
+					
+				});	
+				
+				html+="</div>";
+				html += "<div class=\"imgContainer\" id=\"p_"+planes[0]['idPlan']+"_"+ja+"\">";
+				ja++;
+				html += imgs[0].imgs;
+				html += "</div>";
+				html+= "</div>";		
+				html += "</div>";
+			});	
+		
+		html += "</div>";
+	})
+	//console.log(imgs ); 
+	$("#planes").append(html);
+	/*for(planes in objetivos)
+	{
+		
+		for(e in objetivos[planes]['planes'])
+		{
+			for(d in objetivos[planes]['planes'][e]['dias'])
+			{
+				html+="<div>";
+				html+="<div style='width:100%; text-align:center;'><h3>Día "+d+"</h3></div>";
+				html+="<img class=\"gif\" src=\""+objetivos[planes]['planes'][e]['dias'][d]['ejercicio']+"\">";
+				html+="</div>";
+			}
+		}
+		
+	}*/
+	
+	var opcionesSlick = {
+							lazyLoad: 'ondemand',
+							arrows: false,
+							centerMode: true,
+							centerPadding: '25%',
+							slidesToShow: 1,
+							speed: 750,
+							responsive: [
+										{
+											breakpoint: 800,
+											settings: {
+												arrows: false,
+												centerMode: true,
+												centerPadding: '0px',
+												slidesToShow: 1
+											}
+										}                      
+							]};
+						
+	$('#planes').slick(opcionesSlick);
+	
+								
+	var opcionesPlanSliderImg = {
+								lazyLoad: 'ondemand',
+								swipe: false,
+								arrows: true,
+								centerMode: true,
+								centerPadding: '0px',
+								slidesToShow: 1,
+								speed: 750,
+								responsive: [
+											{
+												breakpoint: 800,
+												settings: {
+													arrows: true,
+													centerMode: true,
+													centerPadding: '0px',
+													slidesToShow: 1
+												}
+											}                      
+								]};
+	
+	var opcionesPlanSlider = {
+								lazyLoad: 'ondemand',
+								swipe: false,
+								arrows: true,
+								centerMode: true,
+								centerPadding: '0px',
+								slidesToShow: 1,
+								speed: 750,
+								onAfterChange:function(){									
+									//var count = $(this .slick-center).data("count");
+									var idPlan = $(".nombreRutina .slick-center").data("idplan");
+									
+									var indice = $(".nombreRutina .slick-center").data("ja");
+									var current = (this).getCurrent();
+									var thisId = (this).$slides[current];
+									
+									//console.log(thisId); 
+									if($("#p_"+$(thisId).data("idplan")+"_"+$(thisId).data("ja")).html() != "")
+									{
+										//console.log("ja: "+indice+" idP:"+idPlan+" "+$(".slick-center #p_"+idPlan+"_"+indice).html());
+										var count = $(thisId).data("count");
+										
+										$("#p_"+$(thisId).data("idplan")+"_"+$(thisId).data("ja")).unslick();
+					//$("#p_"+$(thisId).data("idplan")+"_"+$(thisId).data("ja")).html(imgs[count].imgs).removeClass("slick-initialized").removeClass("slick-slider");
+										$("#p_"+$(thisId).data("idplan")+"_"+$(thisId).data("ja")).html(imgs[count].imgs);
+										
+										$("#p_"+$(thisId).data("idplan")+"_"+$(thisId).data("ja")).slick(opcionesPlanSliderImg);
+										$("#p_"+$(thisId).data("idplan")+"_"+$(thisId).data("ja")).slickGoTo(0);
+										gifClass();
+										
+										
+									}
+								},
+								responsive: [
+											{
+												breakpoint: 800,
+												settings: {
+													arrows: true,
+													centerMode: true,
+													centerPadding: '0px',
+													slidesToShow: 1
+												}
+											}                      
+								]};
+	
+						
+	$('.planSlide').slick(opcionesPlanSlider);
+	
+	$('#planes').slickGoTo(0);
+	$('.planSlide').slickGoTo(0);
+	
+	function gifClass()
+	{
+		$('.gif').unbind("click").click(function(){
+			var idRutina = $(this).data("idrutina");
+			var idPlan = $(this).data("idplan");
+			switch(idEspecialidad)
+			{
+				case 1:
+					getPlanPesas(idRutina,idPlan);
+				break;
+			}
+				
+		});
+	}
+	gifClass();
+</script>

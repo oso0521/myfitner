@@ -1,0 +1,47 @@
+<div id="contentProgramas">
+	
+    <table data-role="table" id="tablaProgramas" data-filter="true" data-input="#filterTable-input" class="ui-responsive">	
+    	<thead>
+        	<tr>
+            	<th>
+                	Programa
+                </th>
+                <th>
+                	Consultar
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+<script>
+	var idEspecialidad = ID_ESPECIALIDAD;
+	if(idEspecialidad == "" || typeof idEspecialidad == typeof undefined)
+	{
+		alert("No se encontraron programas para mostrar");		
+	}else
+	{
+		try
+		{
+			var atr = localStorage.getItem("Data");//Obtener el objeto "BD" de Local Storage
+			var htmlTxt = "";
+			if(atr== "" || atr == null || typeof atr == 'undefined')//Si nunca se ha creado, se crea con valores nulos
+			{
+				myJSONObject ={"Data": [{}]};
+			}else
+			{
+				myJSONObject = JSON.parse(""+atr);	
+			}			
+			var html = "";
+			$.each(myJSONObject['data'][parseInt(idEspecialidad)],function(i,programas){				
+				$.each(programas,function(k,elem){					
+					html += '<tr><td>'+elem['nombre']+'</td><td><button onclick="getPlanesEspecialidad('+elem['idPrograma']+','+idEspecialidad+')">Consultar</button></td></tr>';
+				});			
+			});
+			$("#tablaProgramas tbody").append(html);
+			$("#contentProgramas").prepend('<form action="javascript:void(0);">    	<input id="filterTable-input" data-type="search">    </form>');			
+			$("#tablaProgramas").filterable();
+		}catch(e){}
+	}
+</script>

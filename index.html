@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>MyFitner</title>
+	<link rel="shortcut icon" href="favicon.ico">
+	<link rel="stylesheet"  href="css/jquery.mobile-1.4.2.min.css">
+	<link rel="stylesheet" href="css/jqm-demos.css">
+    <link rel="stylesheet" href="css/jquery-ui.min.css">
+    <link rel="stylesheet" href="css/jquery-ui.theme.min.css">
+    <link rel="stylesheet" href="css/myStyle.css">
+    <link rel="stylesheet" href="slick/slick.css">
+    <link rel="stylesheet" href="css/jquery.bxslider.css">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
+	<script src="js/jquery.js"></script>
+	<script src="js/jquery-ui.js"></script>
+	<script src="js/index.js"></script>	
+    <script src="js/calendario.js"></script>	
+	<script src="js/jquery.mobile-1.4.2.min.js"></script>
+    <script src="js/jquery.bxslider.js"></script>
+    <script src="slick/slick.min.js"></script>
+    
+</head>
+<body>
+<div data-role="page" class="jqm-demos jqm-home bgGeneral">
+
+	<div data-role="header" class="jqm-header">
+		<h1 id="myTitle" class="myTitle">My Fitner</h1>		
+		<a href="#" class="jqm-navmenu-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-bars ui-nodisc-icon ui-alt-icon ui-btn-left">Menu</a>
+		<a href="#" class="jqm-search-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-search ui-nodisc-icon ui-alt-icon ui-btn-right">Search</a>
+        <p class="header1">Inicia sesi&oacute;n</p>
+        <p class="header2">Registro</p>
+	</div><!-- /header -->
+
+	<div role="main" class="ui-content jqm-content contenidoCustom" id="contenido">
+
+		
+		<div id="planesEntrenamiento" class="tarjeta" onClick="getPantallaEntrenamientos()">
+        	<div class="anaranjado" >
+            	<img src="img/pesa.png" /> Planes de Entrenamiento
+            </div>
+        </div>
+        
+        <div id="conoceRendimiento" class="tarjeta" onClick="">
+        	<div class="rosa tRight" >
+            	Conoce tu rendimiento&nbsp;&nbsp;&nbsp;&nbsp;
+            </div>
+        </div>
+		
+        <div id="eventos" class="eventos">
+        	<div class="headerEventos">
+            	<img src="img/clock.png" />&nbsp;&nbsp;Pr&oacute;ximos eventos
+            </div>
+            <div>
+            	<div class="bodyEventos">
+                	<div>
+                    	22/06
+                    </div>
+                    <div>
+                    	Torneo Tennis Club Alpha 2
+                    </div>
+                    <div>
+                    	Inscribete aqu&iacute;
+                    </div>
+                </div>
+                <div class="bodyEventos">
+                	<div>
+                    	26/06
+                    </div>
+                    <div>
+                    	Inscripci&oacute;n Clases de Yoga
+                    </div>
+                    <div>
+                    	Inscribete aqu&iacute;
+                    </div>
+                </div>
+            </div>
+        </div>		
+        <div class="calendario" >
+        </div>
+        <div class="catalogo">
+        	<div class="patrocinadores">
+            	<div class="patrocinador" style="background-image:url(img/patrocinador1.png)">
+                </div>
+                <div class="patrocinador" style="background-image:url(img/patrocinador2.png)">
+                </div>
+                <div class="patrocinador" style="background-image:url(img/patrocinador3.png)">
+                </div>
+                <div class="patrocinador" style="background-image:url(img/patrocinador4.png)">
+                </div>
+            </div>
+            <div class="slider">
+            	<div class="carrusel">
+                	<div>
+                    	<div class="carr_select">
+                            <div id="galeria_slider2">
+                                <div class="slide"><img class="img_slider2" src="/img/prod1.png"/>
+                                	<div>
+                                    	<p>
+                                        	<span>
+                                            	Garmin Running
+                                            </span>
+                                            <span>	
+                                            	Encuentre el producto
+                                            </span>
+                                        </p>
+                                	</div>
+                                </div>
+                                <div class="slide"><img class="img_slider2" src="/img/prod2.png"/></div>
+                            </div>
+                            <img id="img_carrIzq" src="../img/flecha-fondoizq.png"/>
+		                    <img id="img_carrDer" src="../img/flecha-fondoder.png"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+	</div><!-- /content -->
+	    <div data-role="panel" class="jqm-navmenu-panel" data-position="left" data-display="overlay" data-theme="o">
+	    	<ul class="jqm-list ui-alt-icon ui-nodisc-icon">
+				<li data-filtertext="homepage" ><a href=".././" class="aPersonalizadosPanel">&nbsp;<img class="logoIni" src="img/logoAlpha.png" /></a></li>
+                <li data-filtertext="homepage" ><a href=".././" class="aPersonalizadosPanel"><img class="logoList" src="img/home.png"/>Inicio</a></li>
+                <li data-filtertext="homepage" ><a href=".././" class="aPersonalizadosPanel"><img class="logoList" src="img/calendar.png"/>Calendario</a></li>
+                <li data-filtertext="homepage" ><a href=".././" class="aPersonalizadosPanel"><img class="logoList" src="img/perfil.png"/>Perfil</a></li>
+                <li data-filtertext="homepage" ><a href=".././" class="aPersonalizadosPanel"><img class="logoList" src="img/pesa.png"/>Planes</a></li>
+                <li data-filtertext="homepage" ><a href=".././" class="aPersonalizadosPanel"><img class="logoList" src="img/eventos.png"/>Eventos</a></li>
+                <li data-filtertext="homepage" ><a href=".././" class="aPersonalizadosPanel"><img class="logoList" src="img/catalogo.png"/>Cat&aacute;logo</a></li>
+                <li data-filtertext="homepage" ><a href=".././" class="aPersonalizadosPanel"><img class="logoList" src="img/config.png"/>Configuraci&oacute;n</a></li>
+		     </ul>
+		</div><!-- /panel -->
+
+
+	
+	<!-- TODO: This should become an external panel so we can add input to markup (unique ID) -->
+    <!-- /panel -->
+
+
+</div><!-- /page -->
+<script>
+	var slider2 = $('#galeria_slider2').bxSlider({
+							slideWidth: 400,
+							minSlides: 5,
+							maxSlides: 100,
+							moveSlides: 1,
+							slideMargin: 20
+						  });
+						  
+			$("#img_carrIzq").click(function() { slider2.goToPrevSlide(); });
+			$("#img_carrDer").click(function() { slider2.goToNextSlide(); });
+	getData();
+</script>
+</body>
+</html>

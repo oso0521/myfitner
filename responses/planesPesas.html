@@ -1,0 +1,149 @@
+<script>
+
+	try
+	{
+		if(myJSONObject == "" || typeof myJSONObject == typeof undefined)
+		{
+			var atr = localStorage.getItem("Data");//Obtener el objeto "BD" de Local Storage
+			var htmlTxt = "";
+			if(atr== "" || atr == null || typeof atr == 'undefined')//Si nunca se ha creado, se crea con valores nulos
+			{
+				myJSONObject ={"Data": []};
+			}else
+			{
+				myJSONObject = JSON.parse(""+atr);	
+			};	
+		}
+		idEspecialidad = ID_ESPECIALIDAD;
+		idPrograma = ID_PROGRAMA;
+		idRutina = ID_RUTINA;
+		idPlan = ID_PLAN;
+	}catch(e){}	
+	//console.log(myJSONObject['data'][parseInt(idEspecialidad)][parseInt(idPrograma)][0]['planes'][idPlan][0]['rutinas'][idRutina]['nombre']);
+	var pesas = myJSONObject['data'][parseInt(idEspecialidad)][parseInt(idPrograma)][0]['planes'][idPlan][0]['rutinas'][idRutina];	
+	
+	
+</script>
+
+<style>
+	.carr_select
+	{
+		width:90%;
+	}
+	.cardWrap
+	{
+		width:45%;
+	}
+	.cardWrap>div
+	{
+		height: 100%;
+		width: 95% !important;
+		margin:auto;
+	}
+	.slick-prev:before, .slick-next:before 
+	{
+   		color: gray;;
+	}
+	.slick-slide
+	{
+		opacity:0.5;
+	}
+	.slick-slide.slick-center
+	{
+		opacity:1;
+	}
+	
+	.bgGeneral{
+		background-color:white;
+		background-image:none !important;
+	}
+	
+	
+	@media screen and (max-width:800px)
+	{
+		.carr_select
+		{
+			width:100%;
+		}
+	}
+</style>
+
+<div>
+	<div>
+    	<span id="nombreEjercicio"></span>
+        <span class="ico" id="cancel"></span>
+        <span class="ico" id="nuevo"></span>
+        <span class="ico" id="probar"></span>
+    </div>
+    <div class="slider">
+        <div class="slick_slide">
+            <div>
+                <div class="carr_select">
+                    <div id="galeria_slider2">
+                                     
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+	
+</div>
+<script>
+	var html = "";	
+	$("#myTitle").append(" - "+pesas['nombre']);
+	$.each(pesas['ejercicios'],function(i,elem){
+		html = "<div class=\"cardWrap\"><div class=\"ejercicioCard\"><div><img src=\""+elem['gif']+"\" /></div><div><table class=\"entrenos\" cellpadding=\"0\" cellspacing=\"0\"><thead><tr><th>Peso</th><th>Series</th><th>Reps</th><th>Ritmo</th><th colspan=\"2\">Descanso</th></tr></thead><tbody>";	
+		var serie = parseInt(elem['series']);
+		serie = isNaN(serie) ? 1:serie;
+		console.log(serie+" "+(typeof serie));
+		for(j=0;j<serie;j++)
+		{
+			
+			html+="<tr><td>"+elem['rm']+"</td><td>"+(j+1)+"</td><td>"+elem['repeticiones']+"</td><td>"+elem['ritmo']+"</td><td>"+elem['descanso']+"</td><td>.</td></tr>";		
+		}
+		html += "</tbody></table></div></div></div>";
+		$("#galeria_slider2").append(html);
+	});
+	trEntrenos()
+	
+	
+/*var slider2 = $('#galeria_slider2').bxSlider({
+							slideWidth: 400,
+							minSlides: 1,
+							maxSlides: 100,
+							moveSlides: 1,
+							slideMargin: 20
+						  });*/
+						  
+	var opcionesSlick = {
+							lazyLoad: 'ondemand',
+							arrows: true,
+							centerMode: true,
+							centerPadding: '25%',
+							slidesToShow: 1,
+							speed: 750,
+							responsive: [
+											{
+												breakpoint: 800,
+												settings: {
+													arrows: false,
+													centerMode: true,
+													centerPadding: '0px',
+													slidesToShow: 1
+												}
+											}                      
+										]};
+	
+	$('#galeria_slider2').slick(opcionesSlick);
+	
+	$('#galeria_slider2').slickGoTo(0);
+	
+	function trEntrenos()
+	{
+		$("table.entrenos tbody tr").unbind("click").click(function(){
+			console.log($(this).children(":last-child").html());	
+		});	
+	}
+			
+	trEntrenos();		
+</script>

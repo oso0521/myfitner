@@ -1,0 +1,638 @@
+@charset "utf-8";
+/* CSS Document */
+
+.contenidoCustom
+{
+	padding-left:0px !important;
+	padding-right:0px !important;	
+}
+
+@font-face {
+  font-family: 'Helvetica ctm';
+  font-style: normal;
+  font-weight: normal;
+  src: url('../fonts/HelveticaNeue-Light.otf') format('opentype');
+}
+
+body
+{
+	font-family:'Helvetica ctm';		
+}
+
+.bgGeneral
+{
+	background-image:url("../img/bg.png");
+	background-size:cover;	
+}
+
+
+@media screen and (max-width:800px)
+{
+	.contenidoCustom
+	{
+		padding-top:0px !important;
+		padding-bottom:0px !important;	
+	}	
+	
+	.tarjeta, .eventos, .tarjetaL
+	{
+		width:100% !important;
+		background-size:cover !important;
+		background-position:center !important;	
+	}
+	
+	.eventos > div:nth-child(2)
+	{
+		height:auto !important;				
+	}
+	
+	.bgGeneral
+	{
+		background-image:none !important;
+	}
+	
+	div.calendario
+	{
+		width:100% !important;
+		margin:0px !important;		
+	}
+	table.calendario tbody td
+	{
+		padding:3% !important;		
+	}
+	
+	div.calendario
+	{
+		margin:0px !important;
+		width:100% !important;
+		height:auto !important;
+	}
+	
+	div.catalogo
+	{
+		margin:0px !important;
+		width:100% !important;
+	}
+	
+	.contieneTarjetas
+	{
+		width:50% !important;		
+	}
+	
+	 .tarjetaV
+	{
+		width:50% !important;		
+	}
+	
+	#galeria_slider2
+	{
+		margin-left:0px !important;		
+	}
+}
+
+.logoIni
+{
+	width:96%;
+	margin-left:auto;
+	margin-right:auto;
+	max-height:none !important;
+	max-width:none !important;
+	padding-left:5px !important;
+}
+
+.logoList
+{
+	position:inherit !important;
+	display:block !important;
+	margin-left:auto !important;
+	margin-right:auto !important;	
+}
+
+.aPersonalizadosPanel
+{
+	padding-right:0px !important;
+	text-align:center !important;
+	background-image:none !important;	
+}
+
+.aPersonalizadosPanel:after
+{
+	background-image:none !important;	
+}
+
+.header1
+{
+	text-transform:none !important;
+	right:9% !important;
+	color:white !important;	
+}
+
+.header2
+{
+	text-transform:none !important;
+	right:3% !important;
+	color:white !important;	
+}
+
+.myTitle
+{
+	margin:0 8% !important;
+	font-size:1.2em !important;
+	text-align:left !important;
+	font-weight:500 !important;	
+}
+
+.ui-page-theme-o .ui-btn, html .ui-bar-o .ui-btn, html .ui-body-o .ui-btn, html body .ui-group-theme-o .ui-btn, html head + body .ui-btn.ui-btn-o, .ui-page-theme-o .ui-btn:visited, html .ui-bar-o .ui-btn:visited, html .ui-body-o .ui-btn:visited, html body .ui-group-theme-o .ui-btn:visited, html head + body .ui-btn.ui-btn-o:visited {
+    background-color: #3c81c7;
+    border-color: #FFF;
+    color: #fff;
+    
+}
+
+.tarjeta
+{
+	width:375px;
+	height:250px;
+	background-size:contain;
+	vertical-align:bottom;
+	position:relative;
+	display:inline-block;
+	margin-right:25px;
+	cursor:pointer;
+}
+
+.tarjeta > div
+{
+	line-height:66px;
+	vertical-align:bottom;
+	text-align:center;
+	height:66px;
+	width:100%;
+	color:white;
+	position:absolute;
+	bottom:0;
+	font-size:1.4em;
+}
+
+.anaranjado
+{
+	background-color:rgba(224,101,37,0.7);	
+}
+
+.rosa
+{
+	background-color:rgba(212,39,120,0.7);	
+}
+.tarjeta > div img
+{
+	vertical-align:middle;	
+}
+
+#planesEntrenamiento{
+	background-image:url("../img/carrera.jpg");	
+}
+
+#conoceRendimiento
+{
+	background-image:url("../img/conoceRendimiento.png");	
+}
+
+.tLeft
+{
+	text-align:left !important;	
+}
+
+.tRight
+{
+	text-align:right !important;	
+}
+
+.eventos
+{
+	width:300px;
+	height:250px;
+	display:inline-block;
+	vertical-align:bottom;
+	cursor:pointer;
+}
+
+.eventos > div:nth-child(2)
+{
+	background-color:white;
+	height:184px;
+	overflow:hidden;
+}
+
+.headerEventos
+{
+	background-color:#3064a5;
+	color:white;
+	font-size:1.4em;
+	height:66px;
+	text-align:center;
+	line-height:66px;	
+}
+
+.headerEventos img
+{
+	vertical-align:middle;	
+}
+
+
+.bodyEventos
+{
+	border-bottom:solid;
+	border-bottom-color:rgba(0,0,0,0.2);
+	border-bottom-width:thin;	
+	padding:5px 10px;
+}
+
+.bodyEventos > div:nth-child(2)
+{
+	margin-top:8px;
+	font-size:18px;
+}
+
+.bodyEventos > div:nth-child(1)
+{
+	font-size:20px;	
+}
+
+.bodyEventos:last-child
+{
+	border-bottom:solid 0px white !important;	
+}
+
+div.calendario
+{
+	width:655px; 
+	height:500px;
+	display:inline-block;
+	margin:30px 20px 30px 0px;
+}
+
+table.calendario
+{
+	width:100%;	
+}
+
+table.calendario tr th.titulo
+{
+	background-color:#3C81C7;
+	color:white;
+	padding:5px;
+	text-align:center;
+	font-size:1.4em;		
+}
+
+table.calendario tr.dias
+{
+	background-color:#2AA56E;
+	color:white;		
+}
+
+table.calendario tr.dias td
+{
+	text-align:center;
+	padding:5px;	
+}
+
+table.calendario tbody
+{
+	background-color:white;	
+}
+
+table.calendario tbody td
+{
+	border:solid 1px #CCCCCC;
+	text-align:center;
+	padding:28px;
+	vertical-align:bottom;
+	cursor:pointer;		
+}
+
+table.calendario tbody td:hover
+{
+	background-color:#2AA56E;
+	color:white;	
+}
+
+table.calendario tbody td div.numDia
+{
+	float:right;
+	vertical-align:bottom;
+	font-size:0.9em;
+}
+
+div.catalogo
+{
+	width:430px;
+	display:inline-block;
+	vertical-align:top;
+	margin: 30px 20px 30px 0;
+}
+
+div.catalogo div.patrocinadores
+{
+	height:205px;
+	background-color:white;
+	width:100%;
+}
+
+div.patrocinador
+{
+	width:	212px;
+	height:102px;
+	display:inline-block;
+}
+
+div.slider
+{
+	width:100%;	
+	background-color:white;	
+}
+
+div.carrusel
+{
+	padding:10px;
+	min-height:155px;	
+}
+
+div.slide
+{
+	height:150px;
+	line-height:150px;
+	vertical-align:middle;	
+}
+
+#img_carrIzq, #img_carrDer
+{
+	position:absolute;
+	margin-top:-99px;
+}
+
+#img_carrDer
+{
+	margin-left:385px;	
+}
+
+#img_carrIzq
+{
+	
+}
+
+#galeria_slider2
+{
+	margin-left:58px;
+	margin-top:34px;
+}
+
+.w10
+{
+	width:9%;	
+}
+
+.w20
+{
+	width:18%;		
+}
+
+.w25
+{
+	width:23%;		
+}
+
+.w30
+{
+	width:28%;		
+}
+.w40
+{
+	width:38%;		
+}
+.w50
+{
+	width:47%;		
+}
+.w60
+{
+	width:58%;		
+}
+.w80
+{
+	width:78%;		
+}
+.w70
+{
+	width:68%;		
+}
+.w90
+{
+	width:88%;		
+}.w100
+{
+	width:100%;		
+}
+
+.tarjetaL
+{	
+	height:325px;
+	background-size:cover; 
+	vertical-align:bottom;
+	position:relative;
+	display:inline-block;	
+	cursor:pointer;
+}
+
+.tarjetaL > div
+{
+	line-height:66px;
+	vertical-align:bottom;
+	text-align:center;
+	height:66px;
+	width:100%;
+	color:white;
+	position:absolute;
+	bottom:0;
+	font-size:1.4em;
+}
+
+
+.tarjetaV
+{	
+	height:400px;
+	background-size:cover; 
+	vertical-align:top;
+	position:relative;
+	display:inline-block;	
+	cursor:pointer;
+}
+
+.tarjetaV > div
+{
+	line-height:66px;
+	vertical-align:bottom;
+	text-align:center;
+	height:66px;
+	width:100%;
+	color:white;
+	position:absolute;
+	bottom:0;
+	font-size:1.4em;
+	display:inline-block;
+}
+
+.tarjetaS
+{	
+	height:200px;
+	background-size:cover; 
+	vertical-align:bottom;
+	position:relative;	
+	cursor:pointer;
+}
+
+.tarjetaS > div
+{
+	line-height:66px;
+	vertical-align:bottom;
+	text-align:center;
+	height:66px;
+	width:100%;
+	color:white;
+	position:absolute;
+	bottom:0;
+	font-size:1.4em;
+}
+
+
+.anaranjado
+{
+	background-color:rgba(224,101,37,0.9);	
+}
+
+.rosa
+{
+	background-color:rgba(212,39,120,0.7);	
+}
+
+.azul
+{
+	background-color:rgba(60,114,182,0.9);	
+}
+
+.morado
+{
+	background-color:rgba(117,42,126,0.9);	
+}
+
+.rojo
+{
+	background-color:rgba(232,27,24,0.9);	
+}
+
+.amarillo
+{
+	background-color:rgba(219,197,77,0.9);		
+}
+
+.aqua
+{
+	background-color:rgba(66,175,191,0.9);		
+}
+.azulMarino
+{
+	background-color:rgba(66,76,185,0.9);			
+}
+.tarjetaL > div img
+{
+	vertical-align:middle;	
+}
+
+#pantallaPlanesEntrenamiento .pesas
+{
+	background-image:url("../img/pesas.png");	
+}
+
+#pantallaPlanesEntrenamiento .deportes
+{
+	background-image:url("../img/deportes.png");	
+}
+
+#pantallaPlanesEntrenamiento .clases
+{
+	background-image:url("../img/clases.png");		
+}
+
+#pantallaPlanesEntrenamiento .fitness
+{
+	background-image:url("../img/fitness.png");		
+}
+
+#pantallaPlanesEntrenamiento .cardio
+{
+	background-image:url("../img/cardio.png");		
+}
+#pantallaPlanesEntrenamiento .natacion
+{
+	background-image:url("../img/natacion.png");		
+}
+#pantallaPlanesEntrenamiento .nutricion
+{
+	background-image:url("../img/nutricion.png");		
+}
+#pantallaPlanesEntrenamiento .reduccion
+{
+	background-image:url("../img/reduccionPeso.png");		
+}
+
+.inline
+{
+	display:inline-block;	
+}
+
+.blocked
+{	
+	background-color:rgba(19,19,19,0.9); 
+	width:100% !important; 
+	height:100% !important;
+	z-index:99;
+}
+
+.ejercicioCard:not(.bx-clone){
+	-webkit-box-shadow: 0px 6px 13px 0px rgba(50, 50, 50, 0.75);
+	-moz-box-shadow:    0px 6px 13px 0px rgba(50, 50, 50, 0.75);
+	box-shadow:         0px 6px 13px 0px rgba(50, 50, 50, 0.75);
+}
+
+.ejercicioCard img
+{
+	width:100%;	
+}
+
+.ejercicioCard table
+{
+	width:100%;	
+}
+
+.ejercicioCard table thead tr th
+{
+	background-color:#3C81C7;
+	color:white;
+	font-size:20px;
+	padding:10px;	
+}
+
+.ejercicioCard table tbody tr td
+{
+	text-align:center;
+	padding:10px;
+	border-bottom:solid 1px #000;	
+}
+
+@media screen and (max-width:800px)
+{
+	.ejercicioCard table thead tr th
+	{
+		font-size:16px;
+	}
+}
