@@ -17,10 +17,12 @@
 		idEspecialidad = ID_ESPECIALIDAD;
 		idPrograma = ID_PROGRAMA;
 		idRutina = ID_RUTINA;
-		idPlan = ID_PLAN;
+		idPlan = ID_PLAN; 
 	}catch(e){}	
-	//console.log(myJSONObject['data'][parseInt(idEspecialidad)][parseInt(idPrograma)][0]['planes'][idPlan][0]['rutinas'][idRutina]['nombre']);
-	var pesas = myJSONObject['data'][parseInt(idEspecialidad)][parseInt(idPrograma)][0]['planes'][idPlan][0]['rutinas'][idRutina];	
+	console.log(idEspecialidad+" idp "+idPrograma+" idr "+idRutina+" idpl "+idPlan);
+	console.log(myJSONObject['data'][parseInt(idEspecialidad)][parseInt(idPrograma)]['planes'][idPlan]);
+	//console.log(myJSONObject['data'][parseInt(idEspecialidad)][parseInt(idPrograma)][0]['planes'][idPlan]);
+	var pesas = myJSONObject['data'][parseInt(idEspecialidad)][parseInt(idPrograma)]['planes'][idPlan]['rutinas'][idRutina];	
 	
 	
 </script>
@@ -85,21 +87,22 @@
                 </div>
             </div>
         </div>
-    </div>
-	
+    </div>	
 </div>
+
+
 <script>
 	var html = "";	
 	$("#myTitle").append(" - "+pesas['nombre']);
 	$.each(pesas['ejercicios'],function(i,elem){
-		html = "<div class=\"cardWrap\"><div class=\"ejercicioCard\"><div><img src=\""+elem['gif']+"\" /></div><div><table class=\"entrenos\" cellpadding=\"0\" cellspacing=\"0\"><thead><tr><th>Peso</th><th>Series</th><th>Reps</th><th>Ritmo</th><th colspan=\"2\">Descanso</th></tr></thead><tbody>";	
+		html = "<div class=\"cardWrap\"><div class=\"ejercicioCard\"><div><div><div class=\"sponsorFlip\"><img src=\""+elem['gif']+"\" /></div><div class=\"sponsorData\" id=\""+i+"_"+elem['idEjercicio']+"\">flipped !!</div></div><div class=\"iconos\"><div class=\"iconParent\"><div class=\"icon play\" data-gif=\""+elem['gif']+"\" data-imggif=\""+elem['img']+"\"></div></div><div class=\"iconParent\"><div class=\"icon inicial\" data-ejecucion=\""+elem['ejecucion']+"\"></div></div><div class=\"iconParent \"><div class=\"icon calculaPeso\"></div></div><div class=\"iconParent\"><div class=\"icon descripcionEjercicio\" data-des=\""+elem['descripcion']+"\"></div></div><div class=\"iconParent\"><div class=\"icon full\"></div></div></div></div><div><table class=\"entrenos\" cellpadding=\"0\" cellspacing=\"0\"><thead><tr><th>Peso</th><th>Series</th><th>Reps</th><th>Ritmo</th><th colspan=\"2\">Descanso</th></tr></thead><tbody>";	
 		var serie = parseInt(elem['series']);
 		serie = isNaN(serie) ? 1:serie;
 		console.log(serie+" "+(typeof serie));
 		for(j=0;j<serie;j++)
 		{
 			
-			html+="<tr><td>"+elem['rm']+"</td><td>"+(j+1)+"</td><td>"+elem['repeticiones']+"</td><td>"+elem['ritmo']+"</td><td>"+elem['descanso']+"</td><td>.</td></tr>";		
+			html+="<tr><td>"+elem['rm']+"</td><td>"+(j+1)+"</td><td>"+elem['repeticiones']+"</td><td class=\"ritmoPesas\">"+elem['ritmo']+"</td><td>"+(timeFormat(elem['descanso']))+"</td><td>.</td></tr>";		
 		}
 		html += "</tbody></table></div></div></div>";
 		$("#galeria_slider2").append(html);
@@ -127,7 +130,7 @@
 												breakpoint: 800,
 												settings: {
 													arrows: false,
-													centerMode: true,
+													centerMode: true, 
 													centerPadding: '0px',
 													slidesToShow: 1
 												}
@@ -141,9 +144,70 @@
 	function trEntrenos()
 	{
 		$("table.entrenos tbody tr").unbind("click").click(function(){
-			console.log($(this).children(":last-child").html());	
+			$(this).children(":last-child").html("<img src=\"img/checked.png\" />");
 		});	
 	}
+	
+	
+	function timeFormat(time)
+	{
+		if(time == "" || typeof time == typeof undefined)
+		{
+			return "";	
+		}
+		var timeSplit = time.split(":");
+		try
+		{
+			var hours = "";
+			hours = timeSplit[0];
+			var minutes = "";
+			minutes = timeSplit[1]+"'";
+			var seconds = "";
+			seconds = timeSplit[2]+"''";
 			
+			var result = (hours != "" && hours != "00") ? hours:"";
+			result += (minutes != "" && minutes != "00'") ? minutes:"";
+			result += (seconds != "" && seconds != "00''") ? seconds:"";
+			
+			return result;
+		}catch(e){}
+	}
 	trEntrenos();		
+	$('.sponsorFlip').bind("click",function(){
+		
+		// $(this) point to the clicked .sponsorFlip element (caching it in elem for speed):
+		
+		var elem = $(this);
+		
+		// data('flipped') is a flag we set when we flip the element:
+		
+		if(elem.data('flipped'))
+		{
+			// If the element has already been flipped, use the revertFlip method
+			// defined by the plug-in to revert to the default state automatically:
+			
+			elem.revertFlip();
+			
+			// Unsetting the flag:
+			elem.data('flipped',false)
+		}
+		else
+		{
+			// Using the flip method defined by the plugin:
+			
+			elem.flip({
+				direction:'lr',
+				speed: 350,
+				onBefore: function(){
+					// Insert the contents of the .sponsorData div (hidden from view with display:none)
+					// into the clicked .sponsorFlip div before the flipping animation starts:
+					
+					elem.html(elem.siblings('.sponsorData').html());
+				}
+			});
+			
+			// Setting the flag:
+			elem.data('flipped',true);
+		}
+	});
 </script>

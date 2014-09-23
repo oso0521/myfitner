@@ -1,0 +1,127 @@
+<script>
+	var hoy = new Date();
+</script>
+<div>
+	<form>
+    	<div>
+        	<div id="diaInicioSet"></div> Dia inicio <div id="upDate">^</div><div id="downDate">v</div>
+        </div>
+            <table>
+            	<thead>
+                	<tr>
+                    	<th colspan="7">
+                        	Dias de Entrenamiento
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                	<tr>
+                    	<td class="dia" data-id="1">
+                        	Lunes
+                        </td>
+                        <td class="dia" data-id="2">
+                        	Martes
+                        </td>
+                        <td class="dia" data-id="3">
+                        	Mi&eacute;rcoles
+                        </td>
+                        <td class="dia" data-id="4">
+                        	Jueves
+                        </td>
+                        <td class="dia" data-id="5">
+                        	Viernes
+                        </td>
+                        <td class="dia" data-id="6">
+                        	S&aacute;bado
+                        </td>
+                        <td class="dia" data-id="0">
+                        	Domingo
+                        </td>                        
+                    </tr>
+                </tbody>
+            </table>
+            <table>
+            	<thead>
+                	<tr>
+                    	<th>
+                        	Entrenamientos
+                        </th>
+                        <th>
+                        	Días por semana
+                        </th>
+                        <th>
+                        	Semanas
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                	<tr>
+                    	<td id="numEntrenamientos">
+                        	
+                        </td>
+                        <td id="numDiasPorSemana">
+                        	
+                        </td>
+                        <td id="numSemanas">
+                        	
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div>
+            	<div class="inline">
+                	Inicio: <span id="fechaInicioShow"></span>
+                </div>
+                <div class="inline">
+                	Fin: <span id="fechaFinShow"></span>
+                </div>
+            </div>
+       		<div>            	
+            	<button>Agendar Plan</button>
+            </div>
+    </form>
+    <script>
+		$("#diaInicioSet").html(hoy.getDate());
+		try
+		{
+			if(myJSONObject == "" || typeof myJSONObject == typeof undefined)
+			{
+				var atr = localStorage.getItem("Data");//Obtener el objeto "BD" de Local Storage
+				var htmlTxt = "";
+				if(atr== "" || atr == null || typeof atr == 'undefined')//Si nunca se ha creado, se crea con valores nulos
+				{
+					myJSONObject ={"Data": []};
+				}else
+				{
+					myJSONObject = JSON.parse(""+atr);	
+				};	
+			}
+			idEspecialidad = ID_ESPECIALIDAD;
+			idPrograma = ID_PROGRAMA;
+			idRutina = ID_RUTINA;
+			idPlan = ID_PLAN; 
+		}catch(e){}	
+		
+		var programa = myJSONObject['data'][parseInt(idEspecialidad)][parseInt(idPrograma)]['planes'][idPlan];
+		var numEntrenamientos = 0;		
+		$("#numEntrenamientos").html(programa['numrutinas']);
+		var diasEnviar = new Array;
+		var totalDiasSemanas = 0;
+		$(".dia").unbind("click").click(function(){
+			if($(this).hasClass("active"))
+			{
+				$(this).removeClass("active");
+				diasEnviar[$(this).data("id")] = 0;	
+				totalDiasSemanas--;
+			}else
+			{
+				$(this).addClass("active");
+				diasEnviar[$(this).data("id")] = 1;		
+				totalDiasSemanas++;
+			}
+			
+			$("#numDiasPorSemana").html(totalDiasSemanas);
+			$("#numSemanas").html(Math.ceil(programa['numrutinas']/totalDiasSemanas));
+		});	
+	</script>
+</div>

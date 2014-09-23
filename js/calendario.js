@@ -40,7 +40,7 @@ function date(d)
 	var date;
 	if( typeof d !== 'undefined')
 	{
-		auxArrDate = d.split("-");
+		auxArrDate = d.split("-");		
 		date = new Date(auxArrDate[0],auxArrDate[1],auxArrDate[2]);
 	}else
 	{
@@ -70,7 +70,7 @@ function date(d)
 		var fechaRegresiva = new Date(anio,mes,1);
 		var diaSemanaAux = fechaRegresiva.getDay();
 		fechaRegresiva.setDate(fechaRegresiva.getDate() -1 );
-		console.log(fechaRegresiva);
+		//console.log(fechaRegresiva);
 		var j= 0;
 		/*
 		Primer renglón del calendario
@@ -78,12 +78,12 @@ function date(d)
 		for(diaSemanaAux-1;diaSemanaAux>0;diaSemanaAux--)
 		{
 			j++;
-			html += '<td><div class="numDia">'+(fechaRegresiva.getDate()-(diaSemanaAux-1))+'</div></td>';	
+			html += '<td class="'+(fechaRegresiva.getDate() == dia && fechaRegresiva.getMonth() == mes ? "hoy":"")+'"><div class="numDia ">'+(fechaRegresiva.getDate()-(diaSemanaAux-1))+'</div></td>';	
 		}		
 		for(i=j;i<7;i++)
 		{
 			fechaRegresiva.setDate(fechaRegresiva.getDate()+1);
-			html += '<td><div class="numDia">'+fechaRegresiva.getDate()+'</div></td>';	
+			html += '<td class="'+(fechaRegresiva.getDate() == dia && fechaRegresiva.getMonth() == mes ? "hoy":"")+'"><div class="numDia ">'+fechaRegresiva.getDate()+'</div></td>';	
 			
 		}
 		html += '</tr>';
@@ -97,7 +97,7 @@ function date(d)
 			for(j=0;j<7;j++)
 			{
 				fechaRegresiva.setDate(fechaRegresiva.getDate()+1);
-				html += '<td><div class="numDia">'+fechaRegresiva.getDate()+'</div></td>';	
+				html += '<td class="'+(fechaRegresiva.getDate() == dia && fechaRegresiva.getMonth() == mes ? "hoy":"")+'"><div class="numDia">'+fechaRegresiva.getDate()+'</div></td>';	
 			}
 			html += '</tr>';
 		}
@@ -135,11 +135,6 @@ function getEntrenos()
 }
 
 
-$(document).ready(function(e) {
-	date();  
-	getEntrenos();
-	getUserId();
-});
 
 
 
@@ -180,16 +175,18 @@ function getQueryVariable(variable)
 }
 var ID_RUTINA=null;
 var ID_PLAN = null;
-function getPlanPesas(idRutina,idPlan)
+var ID_ESPECIALIDAD=null;
+var ID_PROGRAMA=null;
+function getPlanPesas(idRutina,idPlan,elem)
 {
 	ID_RUTINA = idRutina;
 	ID_PLAN = idPlan;
-	$.get("responses/planesPesas.html",function(e){
-		$("#contenido").html(e);
+	ID_ESPECIALIDAD = 1;
+	$.get("responses/calendarizaPlan.html",function(e){
+		elem.parent().parent().parent().parent().parent().html(e);
 	});		
 }
-var ID_ESPECIALIDAD=null;
-var ID_PROGRAMA=null;
+
 function getPlanHome(id)
 {
 	ID_ESPECIALIDAD = id;
@@ -202,10 +199,40 @@ function getPlanesEspecialidad(idPrograma, idEspecialidad)
 {
 	ID_PROGRAMA = idPrograma;
 	ID_ESPECIALIDAD = idEspecialidad;
-	$.get("responses/homePlanes.html",function(e){
-		$("#contenido").html(e);	
-	});	
+	
+	if(idEspecialidad == 2)
+	{
+		$.get("responses/homePlanesCardio.html",function(e){
+			$("#contenido").html(e);	
+		});	
+	}
+	else
+	{
+		$.get("responses/homePlanes.html",function(e){
+			$("#contenido").html(e);	
+		});	
+	}
 }
+
+function getDetalleRutina(idEs,idPr,idPl,idRuPl)
+{
+	ID_ESPECIALIDAD = idEs;
+	ID_PROGRAMA = idPr;
+	ID_PLAN = idPl;
+	ID_RUTINAPLAN = idRuPl;
+	
+	if(idEs == 2)
+	{
+		$.get("responses/detalleRutinaCardio.html",function(e){
+			$("#contenido").html(e);	
+		});
+	}
+	else
+	{
+		//sth sth
+	}
+}
+
 var BASE_JSON={"data":[]};
 function getData()
 {
@@ -215,7 +242,8 @@ function getData()
 			//console.log(data);
 			if(data != "" && data != null )
 					BASE_JSON['data'] = data['Data'];
-				
+			
+			//console.log(BASE_JSON);	
 			$.each(data['Data'],function(i,elem){
 				
 			}); 
@@ -223,3 +251,122 @@ function getData()
 		});
 	}catch(e){}
 }
+
+//GENERA HTML DE LA GRAFICA
+function generaGrafica(ejercicios)
+{
+	var nBarras = Object.keys(ejercicios).length;
+	//nBarras = 7;
+	var wPadre = nBarras*20;
+	var wHijo = 100/nBarras;
+	
+	var resultado = "<div style='width:80%; overflow-x:auto; overflow-y:hidden; margin-left:10%; margin-top:10%; text-align:left;'><div class='grafica' style='width:"+wPadre+"%'>";
+	
+	$.each(ejercicios,function(i,ejercicio)
+	{
+		switch(ejercicio['ritmo'])
+		{
+			case '1':
+				resultado += "<div class='intensidad1' style='width:"+wHijo+"%'><div class='area'><div style='height: 100%; display: inline-block; width: 0px;'></div><div class='barra'></div></div><div class='tag'>"+ejercicio['duracion']+"</div></div>";
+			break;
+			case '2':
+				resultado += "<div class='intensidad2' style='width:"+wHijo+"%'><div class='area'><div style='height: 100%; display: inline-block; width: 0px;'></div><div class='barra'></div></div><div class='tag'>"+ejercicio['duracion']+"</div></div>";
+			break;
+			case '3':
+				resultado += "<div class='intensidad3' style='width:"+wHijo+"%'><div class='area'><div style='height: 100%; display: inline-block; width: 0px;'></div><div class='barra'></div></div><div class='tag'>"+ejercicio['duracion']+"</div></div>";
+			break;
+			case '4':
+				resultado += "<div class='intensidad4' style='width:"+wHijo+"%'><div class='area'><div style='height: 100%; display: inline-block; width: 0px;'></div><div class='barra'></div></div><div class='tag'>"+ejercicio['duracion']+"</div></div>";
+			break;
+			case '5':
+				resultado += "<div class='intensidad5' style='width:"+wHijo+"%'><div class='area'><div style='height: 100%; display: inline-block; width: 0px;'></div><div class='barra'></div></div><div class='tag'>"+ejercicio['duracion']+"</div></div>";
+			break; 
+			default:
+				resultado += "algo salio mal";
+			break
+		}
+	});
+	
+	resultado += "</div></div>";
+		
+	//resultado = "<div style='width: 80%; overflow-x: scroll; overflow-y: hidden; margin-left:10%;'><div class='grafica' style='width:"+wPadre+"%'><div class='intensidad1' style='width:"+wHijo+"%'><div class='area'><div style='height: 100%; display: inline-block; width: 0px;'></div><div class='barra'></div></div><div class='tag'>00:00:00</div></div><div class='intensidad2' style='width:"+wHijo+"%'><div class='area'><div style='height: 100%; display: inline-block; width: 0px;'></div><div class='barra'></div></div><div class='tag'>00:00:00</div></div><div class='intensidad3' style='width:"+wHijo+"%'><div class='area'><div style='height: 100%; display: inline-block; width: 0px;'></div><div class='barra'></div></div><div class='tag'>00:00:00</div></div><div class='intensidad2' style='width:"+wHijo+"%'><div class='area'><div style='height: 100%; display: inline-block; width: 0px;'></div><div class='barra'></div></div><div class='tag'>00:00:00</div></div><div class='intensidad4' style='width:"+wHijo+"%'><div class='area'><div style='height: 100%; display: inline-block; width: 0px;'></div><div class='barra'></div></div><div class='tag'>00:00:00</div></div><div class='intensidad5' style='width:"+wHijo+"%'><div class='area'><div style='height: 100%; display: inline-block; width: 0px;'></div><div class='barra'></div></div><div class='tag'>00:00:00</div></div><div class='intensidad1' style='width:"+wHijo+"%'><div class='area'><div style='height: 100%; display: inline-block; width: 0px;'></div><div class='barra'></div></div><div class='tag'>00:00:00</div></div></div></div>";
+	
+	return resultado;
+}
+
+var PLANES_USUARIO={"inf":[]};
+
+function addPrograma2Calendar(idEspecialidad,idPrograma,diasSemana,fechaInicio)
+{
+	var myJSONObject = "";
+	/*
+		Verificar datos necesarios para la ejecución de la función
+	*/
+	if(idEspecialidad == "" || typeof idEspecialidad == typeof undefined || idPrograma == "" || typeof idPrograma == typeof undefined || fechaInicio == "" || typeof fechaInicio == typeof undefined)
+	{
+		return;	
+	}
+	
+	/*
+		Se trata de obtener el objeto local con la información de los planes
+	*/	
+	try
+	{
+		if(myJSONObject == "" || typeof myJSONObject == typeof undefined)
+		{
+			var atr = localStorage.getItem("Data");//Obtener el objeto "BD" de Local Storage
+			var htmlTxt = "";
+			if(atr== "" || atr == null || typeof atr == 'undefined')//Si nunca se ha creado, se crea con valores nulos
+			{
+				myJSONObject ={"Data": []};
+			}else
+			{
+				myJSONObject = JSON.parse(""+atr);	
+			};	
+		}		 
+	}catch(e){}	
+	/*
+		Fin obtención objeto local
+	*/
+	var programa = myJSONObject['data'][parseInt(idEspecialidad)][parseInt(idPrograma)];//Se trae el objeto local desde idPrograma	
+	var fechaSeparada = fechaInicio.split("-");//Fecha separada por - para obtener año,mes y dia por separado
+	var fechaActual = new Date(fechaSeparada[0],(parseInt(fechaSeparada[1])-1),fechaSeparada[2]);
+	var dias = diasSemana.split(",");
+	
+	$.each(programa['planes'],function(i,plan){
+		$.each(plan['rutinas'],function(j,rutina){			
+			
+			while($.inArray(""+fechaActual.getDay(),dias) < 0)
+			{				
+				fechaActual.setDate(fechaActual.getDate()+1);
+			}
+			
+			try
+			{
+				  if(!PLANES_USUARIO['inf'][fechaActual.getFullYear()])
+				{
+					PLANES_USUARIO['inf'][fechaActual.getFullYear()] = {};	
+				}
+				
+				if(!PLANES_USUARIO['inf'][fechaActual.getFullYear()][fechaActual.getMonth()])
+				{
+					PLANES_USUARIO['inf'][fechaActual.getFullYear()][fechaActual.getMonth()]={};	
+				}
+			}catch(e){console.log("Error: "+e);}
+			
+			PLANES_USUARIO['inf'][fechaActual.getFullYear()][fechaActual.getMonth()][fechaActual.getDate()]={idE:idEspecialidad,idP:idPrograma,idPlan:plan['idPlan'],idRutina:rutina['idRutina']};
+			fechaActual.setDate(fechaActual.getDate()+1);	
+			
+		});
+	});
+	console.log(PLANES_USUARIO);	
+	window.localStorage.setItem("calendario",JSON.stringify(PLANES_USUARIO) );
+}
+
+
+$(document).ready(function(e) {
+	date();  
+	addPrograma2Calendar(1,1,"1,2,3,5","2014-09-23");
+	//getEntrenos();
+	//getUserId();
+});

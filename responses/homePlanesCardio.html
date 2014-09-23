@@ -65,6 +65,7 @@
 		width:100%;
 		font-size:25px;		
 	}
+	
 	@media screen and (max-width:800px)
 	{
 		.carr_select
@@ -85,7 +86,8 @@
 	var imgs={};
 	var ia=0;
 	var ja=0;
-	for(p=0;p<5;p++)	
+	for(p=0;p<5;p++)
+	console.log(myJSONObject['data'][parseInt(idEspecialidad)][parseInt(idPrograma)]['planes']);	
 	$.each(myJSONObject['data'][parseInt(idEspecialidad)][parseInt(idPrograma)]['planes'],function(i,plan){
 			
 				//console.log("Planes: ");
@@ -99,17 +101,21 @@
 					//	console.log(plan);
 								
 					$.each(plan['rutinas'],function(l,rutina){				 		
-						//console.log("Rutina: ");
-						//console.log(rutina);						
-						html+="<div class=\"nombreRutina\" style='width:100%; text-align:center;' data-ja=\""+ja+"\" data-count=\""+ia+"\" data-idPlan=\""+plan['idPlan']+"\" data-idRutina=\""+rutina['idRutina']+"\"><h3>"+rutina['nombre']+"</h3></div>";	
-						imgsList = "";											
+						
+						html+="<div class=\"nombreRutina\" style='width:100%; text-align:center;' data-ja=\""+ja+"\" data-count=\""+ia+"\" data-idPlan=\""+plan['idPlan']+"\" data-idRutina=\""+rutina['idRutina']+"\"><h3>"+rutina['nombre']+"</h3>";
+						
+						var datosEjercicios = {};
+						var ie = 0;
+						
 						$.each(rutina['ejercicios'],function(m,ejercicio){
-							//console.log("Ejericio: ");
-							//console.log(ejercicio);
-							imgsList+="<div style=\"width:100%; \"><img class=\"gif\" data-idrutina=\""+rutina['idRutina']+"\" data-idplan=\""+plan['idPlan']+"\" src=\""+ejercicio['gif']+"\" alt=\""+ejercicio['nombre']+"\"/></div>";
-						});						
-						imgs[ia]={"plan":plan['idPlan'],"rutina":rutina['idRutina'],"imgs": imgsList	};
-						ia++;
+							datosEjercicios[ie] = {"duracion":ejercicio['duracion'],"ritmo":ejercicio['ritmo']};
+							
+							ie++;
+						});
+						
+						html+="<div style='cursor:pointer;' onclick='getDetalleRutina("+idEspecialidad+","+idPrograma+","+plan["idPlan"]+","+rutina["idRutina_Plan"]+")'>"+generaGrafica(datosEjercicios)+"</div>";
+						
+						html+="</div>";
 					});
 					
 				
@@ -117,10 +123,94 @@
 				
 			
 		html+="</div>";
-				  html += "<div class=\"imgContainer\" id=\"p_"+plan['idPlan']+"_"+ja+"\">";
-				ja++;
-				html += imgs[0].imgs;
+				  //html += "<div class=\"imgContainer\" id=\"p_"+plan['idPlan']+"_"+ja+"\">";
+//				ja++;
+//				html += imgs[0].imgs;
+//				html += "</div>";
+				html+= "</div>";		
 				html += "</div>";
+		html += "</div>";
+		
+			
+				//console.log("Planes: ");
+						//console.log(planes);
+				
+				html += "<div class=\"cardWrap\"><div class=\"ejercicioCard\"><h2>"+plan['nombre']+"</h2><br />";
+				html += "<div class=\"planSlide\">";
+						
+													
+					//console.log("Plan: ");
+					//	console.log(plan);
+								
+					$.each(plan['rutinas'],function(l,rutina){				 		
+						
+						html+="<div class=\"nombreRutina\" style='width:100%; text-align:center;' data-ja=\""+ja+"\" data-count=\""+ia+"\" data-idPlan=\""+plan['idPlan']+"\" data-idRutina=\""+rutina['idRutina']+"\"><h3>"+rutina['nombre']+"</h3>";
+						
+						var datosEjercicios = {};
+						var ie = 0;
+						
+						$.each(rutina['ejercicios'],function(m,ejercicio){
+							datosEjercicios[ie] = {"duracion":ejercicio['duracion'],"ritmo":ejercicio['ritmo']};
+							
+							ie++;
+						});
+						
+						html+="<div style='cursor:pointer;' onclick='getDetalleRutina("+idEspecialidad+","+idPrograma+","+plan["idPlan"]+","+rutina["idRutina"]+")'>"+generaGrafica(datosEjercicios)+"</div>";
+						
+						html+="</div>";
+					});
+					
+				
+				
+				
+			
+		html+="</div>";
+				  //html += "<div class=\"imgContainer\" id=\"p_"+plan['idPlan']+"_"+ja+"\">";
+//				ja++;
+//				html += imgs[0].imgs;
+//				html += "</div>";
+				html+= "</div>";		
+				html += "</div>";
+		html += "</div>";
+		
+			
+				//console.log("Planes: ");
+						//console.log(planes);
+				
+				html += "<div class=\"cardWrap\"><div class=\"ejercicioCard\"><h2>"+plan['nombre']+"</h2><br />";
+				html += "<div class=\"planSlide\">";
+						
+													
+					//console.log("Plan: ");
+					//	console.log(plan);
+								
+					$.each(plan['rutinas'],function(l,rutina){				 		
+						
+						html+="<div class=\"nombreRutina\" style='width:100%; text-align:center;' data-ja=\""+ja+"\" data-count=\""+ia+"\" data-idPlan=\""+plan['idPlan']+"\" data-idRutina=\""+rutina['idRutina']+"\"><h3>"+rutina['nombre']+"</h3>";
+						
+						var datosEjercicios = {};
+						var ie = 0;
+						
+						$.each(rutina['ejercicios'],function(m,ejercicio){
+							datosEjercicios[ie] = {"duracion":ejercicio['duracion'],"ritmo":ejercicio['ritmo']};
+							
+							ie++;
+						});
+						
+						html+="<div style='cursor:pointer;' onclick='getDetalleRutina("+idEspecialidad+","+idPrograma+","+plan["idPlan"]+","+rutina["idRutina"]+")'>"+generaGrafica(datosEjercicios)+"</div>";
+						
+						html+="</div>";
+					});
+					
+				
+				
+				
+			
+		html+="</div>";
+				  //html += "<div class=\"imgContainer\" id=\"p_"+plan['idPlan']+"_"+ja+"\">";
+//				ja++;
+//				html += imgs[0].imgs;
+//				html += "</div>";
 				html+= "</div>";		
 				html += "</div>";
 		html += "</div>";
@@ -194,7 +284,7 @@
 								slidesToShow: 1,
 								speed: 750,
 								onAfterChange:function(){									
-									//var count = $(this .slick-center).data("count");
+									/*//var count = $(this .slick-center).data("count");
 									var idPlan = $(".nombreRutina .slick-center").data("idplan");
 									
 									var indice = $(".nombreRutina .slick-center").data("ja");
@@ -216,7 +306,7 @@
 										gifClass();
 										
 										
-									}
+									}*/
 								},
 								responsive: [
 											{
@@ -244,11 +334,14 @@
 			switch(idEspecialidad)
 			{
 				case 1:
-					getPlanPesas(idRutina,idPlan,$(this));
+					getPlanPesas(idRutina,idPlan);
 				break;
 			}
 				
 		});
 	}
 	gifClass();
+	
+	
+	
 </script>

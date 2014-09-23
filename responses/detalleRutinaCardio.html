@@ -1,0 +1,281 @@
+<script>
+	try
+	{
+		if(myJSONObject == "" || typeof myJSONObject == typeof undefined)
+		{
+			var atr = localStorage.getItem("Data");//Obtener el objeto "BD" de Local Storage
+			var htmlTxt = "";
+			if(atr== "" || atr == null || typeof atr == 'undefined')//Si nunca se ha creado, se crea con valores nulos
+			{
+				myJSONObject ={"Data": []};
+			}else
+			{
+				myJSONObject = JSON.parse(""+atr);	
+			};	
+		}
+		idEspecialidad = ID_ESPECIALIDAD;
+		idPrograma = ID_PROGRAMA;
+		idPlan = ID_PLAN;
+		idRutinaPlan = ID_RUTINAPLAN;
+		
+	}catch(e){}
+	
+	var rutina = myJSONObject['data'][idEspecialidad][idPrograma]['planes'][idPlan]['rutinas'][idRutinaPlan];
+	
+	var datosEjercicios = new Array();
+	var ie = 0;
+	
+	/**PARA PROBAR**/
+	datosEjercicios[ie] = {"duracion":"00:00:15","ritmo":'3',"horas":parseInt(0),"minutos":parseInt(0),"segundos":parseInt(15)};
+	ie++;
+	/**END PRUEBA**/
+	
+	$.each(rutina['ejercicios'],function(m,ejercicio){
+		var duracion = ejercicio['duracion'];
+		
+		arr = duracion.split(":");
+		
+		datosEjercicios[ie] = {"duracion":duracion,"ritmo":ejercicio['ritmo'],"horas":parseInt(arr[0]),"minutos":parseInt(arr[1]),"segundos":parseInt(arr[2])};
+	
+		ie++;
+	});
+	
+	html = '<div class="rutinaCard">';
+	
+	html += generaGrafica(datosEjercicios);
+	
+	html += '</div><div id="reloj"></div>';
+	
+	$("#detalle").append(html);
+</script>
+
+<script src="../js/stopwatch2.js"></script>
+
+<style>
+	.rutinaCard 
+	{
+		background: none repeat scroll 0 0 white;
+		height: 500px;
+		width: 40%;
+	}
+	
+	/*TIMER*/
+	.loader{
+		position: relative;
+		width: 150px;
+		height: 150px;
+		float:left;
+		user-select: none;
+		box-sizing: border-box;
+	}
+	.loader-bg
+	{
+		width: 100%;
+		height: 100%;
+		border-radius: 50%;
+		border: 15px solid #ffffff;
+		box-sizing: border-box;
+	}
+	.spiner-holder-one
+	{
+		position: absolute;
+		top:0;
+		left:0;
+		overflow: hidden;
+		width: 50%;
+		height: 50%;
+		background: transparent;
+		box-sizing: border-box;
+	}
+	.spiner-holder-two
+	{
+		position: absolute;
+		top:0;
+		left:0;
+		overflow: hidden;
+		width: 100%;
+		height: 100%;
+		background: transparent;
+		box-sizing: border-box;
+	}
+	.loader-spiner
+	{
+		width: 200%;
+		height: 200%;
+		border-radius: 50%;
+		border: 15px solid #00a0db;
+		box-sizing: border-box;
+	}  
+	  .animate-0-25-a
+	{
+		transform: rotate(90deg);
+		transform-origin: 100% 100%;
+	}
+	.animate-0-25-b
+	{
+		transform: rotate(-90deg);
+		transform-origin: 100% 100%;
+	}
+	.animate-25-50-a
+	{
+		transform: rotate(180deg);
+		transform-origin: 100% 100%;
+	}
+	.animate-25-50-b
+	{
+		transform: rotate(-90deg);
+		transform-origin: 100% 100%;
+	}
+	.animate-50-75-a
+	{
+		transform: rotate(270deg);
+		transform-origin: 100% 100%;
+	}
+	.animate-50-75-b
+	{
+		transform: rotate(-90deg);
+		transform-origin:100% 100%;
+	}
+	.animate-75-100-a
+	{
+		transform: rotate(0deg);
+		transform-origin: 100% 100%;
+	}
+	.animate-75-100-b
+	{
+		transform: rotate(-90deg);
+		transform-origin: 100% 100%;
+	}
+	.text
+	{
+		color: rgb(0, 0, 0);
+		font-size: 20px;
+		padding-top: 40%;
+		text-align: center;
+		font-family: Arial;
+	}
+</style>
+
+<div id="detalle">
+</div>
+<!--<br />
+<div style="width:200px; height:200px; padding:50px;">
+	<div class="loader">
+		<div class="loader-bg">
+			<div class="text"></div>
+		</div>        
+		<div class="spiner-holder-one animate-0-25-a">
+			<div class="spiner-holder-two animate-0-25-b">
+				<div class="loader-spiner" style=""></div>
+			</div>
+		</div>
+		<div class="spiner-holder-one animate-25-50-a">
+			<div class="spiner-holder-two animate-25-50-b">
+				<div class="loader-spiner"></div>
+			</div>
+		</div>
+		<div class="spiner-holder-one animate-50-75-a">
+			<div class="spiner-holder-two animate-50-75-b">
+				<div class="loader-spiner"></div>
+			</div>
+		</div>
+		<div class="spiner-holder-one animate-75-100-a">
+			<div class="spiner-holder-two animate-75-100-b">
+				<div class="loader-spiner"></div>
+			</div>
+		</div>
+	</div>
+</div>-->
+
+<script>
+	var htmlReloj = '<div style="width:150px; height:150px; padding:50px; margin:auto;"><div class="loader"><div class="loader-bg"><div class="text"></div></div><div class="spiner-holder-one animate-0-25-a"><div class="spiner-holder-two animate-0-25-b"><div class="loader-spiner" style=""></div></div></div><div class="spiner-holder-one animate-25-50-a"><div class="spiner-holder-two animate-25-50-b"><div class="loader-spiner"></div></div></div><div class="spiner-holder-one animate-50-75-a"><div class="spiner-holder-two animate-50-75-b"><div class="loader-spiner"></div></div></div><div class="spiner-holder-one animate-75-100-a"><div class="spiner-holder-two animate-75-100-b"><div class="loader-spiner"></div></div></div></div></div>';
+	
+	$(".rutinaCard").append(htmlReloj);
+
+	var w = new Stopwatch(refreshReloj,false,50);
+	var idEj = 0;
+	var curTotal = 0;
+	/*var curTotal = ((parseInt(datosEjercicios[idEj]['horas'])*60 + parseInt(datosEjercicios[idEj]['minutos']))*60 + parseInt(datosEjercicios[idEj]['segundos']))*1000;
+	w.setElapsed(datosEjercicios[idEj]['horas'],datosEjercicios[idEj]['minutos'],datosEjercicios[idEj]['segundos']);*/
+	setNewTime(w,idEj);
+	w.start();
+	
+	function refreshReloj(w)
+	{
+		$(".text").html(w.toString());
+		
+		var cur = w.getElapsed();
+		var curMS = ((parseInt(cur.hours)*60 + parseInt(cur.minutes))*60 + parseInt(cur.seconds))*1000 + parseInt(cur.milliseconds);
+		var prog = (curMS/curTotal)*100;
+		if(prog > 100)
+		{
+			prog = 100;
+		}
+		
+		if(parseInt(cur.hours) == 0 && parseInt(cur.minutes) == 0 && parseInt(cur.seconds) == 0 && parseInt(cur.milliseconds) == 0)
+		{
+			idEj++;
+			if(idEj < datosEjercicios.length)
+			{
+				setNewTime(w,idEj);
+				/*curTotal = ((parseInt(datosEjercicios[idEj]['horas'])*60 + parseInt(datosEjercicios[idEj]['minutos']))*60 + parseInt(datosEjercicios[idEj]['segundos']))*1000;
+				w.setElapsed(datosEjercicios[idEj]['horas'],datosEjercicios[idEj]['minutos'],datosEjercicios[idEj]['segundos']);*/
+			}
+			else
+			{
+				w.stop();
+			}
+		}
+		renderProgress(prog);
+	}
+	
+	function renderProgress(progress)
+	{
+		//progress = Math.floor(progress);
+		if(progress<25){
+			var angle = -90 + (progress/100)*360;
+			$(".animate-0-25-b").css("transform","rotate("+angle+"deg)");
+		}
+		else if(progress>=25 && progress<50){
+			var angle = -90 + ((progress-25)/100)*360;
+			$(".animate-0-25-b").css("transform","rotate(0deg)");
+			$(".animate-25-50-b").css("transform","rotate("+angle+"deg)");
+		}
+		else if(progress>=50 && progress<75){
+			var angle = -90 + ((progress-50)/100)*360;
+			$(".animate-25-50-b, .animate-0-25-b").css("transform","rotate(0deg)");
+			$(".animate-50-75-b").css("transform","rotate("+angle+"deg)");
+		}
+		else if(progress>=75 && progress<=100){
+			var angle = -90 + ((progress-75)/100)*360;
+			$(".animate-50-75-b, .animate-25-50-b, .animate-0-25-b")
+												  .css("transform","rotate(0deg)");
+			$(".animate-75-100-b").css("transform","rotate("+angle+"deg)");
+		}
+		//$(".text").html(progress+"%");
+	}
+	
+	function setNewTime(reloj,idE)
+	{
+		var h = parseInt(datosEjercicios[idE]['horas']);
+		var m = parseInt(datosEjercicios[idE]['minutos']);
+		var s = parseInt(datosEjercicios[idE]['segundos']);
+		
+		curTotal = ((h*60 + m)*60 + s)*1000;
+		var ns = s-1;
+		var nm = m;
+		var nh = h;
+		if(ns<0)
+		{
+			ns = 59;
+			nm = m-1;
+			if(nm<0)
+			{
+				nm = 59;
+				nh = h-1;
+			}
+		}
+		
+		reloj.setElapsed(nh,nm,ns);
+	}
+</script>

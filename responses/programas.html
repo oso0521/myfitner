@@ -34,10 +34,9 @@
 				myJSONObject = JSON.parse(""+atr);	
 			}			
 			var html = "";
-			$.each(myJSONObject['data'][parseInt(idEspecialidad)],function(i,programas){				
-				$.each(programas,function(k,elem){					
-					html += '<tr><td>'+elem['nombre']+'</td><td><button onclick="getPlanesEspecialidad('+elem['idPrograma']+','+idEspecialidad+')">Consultar</button></td></tr>';
-				});			
+			console.log(myJSONObject['data'][parseInt(idEspecialidad)]);
+			$.each(myJSONObject['data'][parseInt(idEspecialidad)],function(i,elem){				
+				html += '<tr><td>'+elem['nombre']+'</td><td><button onclick="getPlanesEspecialidad('+elem['idPrograma']+','+idEspecialidad+')">Consultar</button></td></tr>';							
 			});
 			$("#tablaProgramas tbody").append(html);
 			$("#contentProgramas").prepend('<form action="javascript:void(0);">    	<input id="filterTable-input" data-type="search">    </form>');			
